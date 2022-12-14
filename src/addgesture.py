@@ -1,13 +1,27 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+import numpy as np
 import cv2
+import logging
+
+from gesture import Gesture
+from imagecropper import ImageCropper
+
+logging.basicConfig(
+    format="%(asctime)s [AddGesture] [%(levelname)s] %(message)s",
+    level=logging.DEBUG
+)
+
 
 
 class AddGesture:
 
     def __init__(self,root_window,image) -> None:
-        
+
+        cropped_image = ImageCropper(image=image).run()
+        self.gesture = Gesture(cropped_image)
+
         self.window = tk.Toplevel(root_window)
         self.window.resizable(width=None,height=None)
         self.window.title("Add Gesture")
@@ -24,6 +38,7 @@ class AddGesture:
         self.input_box = tk.Entry(
             self.cell
         )
+        self.input_box.focus_get()
 
         self.submit_btn = tk.Button(
             self.cell,
@@ -39,8 +54,12 @@ class AddGesture:
         # Show image that we captured
         self.label = tk.Label(self.window)
         self.label.grid(row=1,column=0)
-        self.label.imgtk = image
-        self.label.configure(image=image)
+        tk_image = cv2.cvtColor(cropped_image,cv2.COLOR_BGR2RGB)
+        tk_image = Image.fromarray(tk_image)
+        tk_image = ImageTk.PhotoImage(image = tk_image)
+        self.label.imgtk = tk_image
+        self.label.configure(image=tk_image)
+
         
 
     def _submit_(self):
@@ -49,11 +68,14 @@ class AddGesture:
         TODO: I think this is where we should add the model for our 
         CV work
         """
+        # self.gesture.show_key_points()
         # Text we got from the input box
-        input_text = self.input_box.get()
-        
+        self.gesture.command = self.input_box.get()
         #Close current window
         self.window.destroy()
+        self.window.quit()
 
     def run(self):
         self.window.mainloop()
+        logging.debug("Returning gesture")
+        return self.gesture
