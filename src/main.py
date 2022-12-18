@@ -1,4 +1,4 @@
-from app import App
+from opengesture import OpenGesture
 
 if __name__ == "__main__":
-    App(1).run()
+    OpenGesture().run()

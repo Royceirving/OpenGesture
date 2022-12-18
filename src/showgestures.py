@@ -8,7 +8,7 @@ import logging
 from gesture import Gesture
 
 logging.basicConfig(
-    format="%(asctime)s [AddGesture] [%(levelname)s] %(message)s",
+    format="%(asctime)s [ShowGestures] [%(levelname)s] %(message)s",
     level=logging.DEBUG
 )
 
