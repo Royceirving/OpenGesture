@@ -5,7 +5,7 @@ import logging
 
 logging.basicConfig(
     format="%(asctime)s [ImageCropper] [%(levelname)s] %(message)s",
-    level=logging.DEBUG
+    level=logging.INFO
 )
 
 class ImageCropper:
@@ -35,10 +35,6 @@ class ImageCropper:
             self.start_y = y
             logging.debug(f"Drawing started ({x},{y})")
         elif(event == cv2.EVENT_MOUSEMOVE and self.drawing_state == ImageCropper.DrawingStates.DRAWING):
-            # max_x = max(self.start_x,self.final_x)
-            # min_x = min(self.start_x,self.final_x)
-            # max_y = max(self.start_y,self.final_y)
-            # min_y = min(self.start_y,self.final_y)
             self.draw_image = self.image.copy()
             cv2.rectangle(self.draw_image,(self.start_x,self.start_y),(x,y), (0xFF,0,0), 2)
         elif(event == cv2.EVENT_LBUTTONUP and self.drawing_state == ImageCropper.DrawingStates.DRAWING):

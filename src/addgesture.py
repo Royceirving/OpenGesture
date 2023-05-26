@@ -10,10 +10,8 @@ from imagecropper import ImageCropper
 
 logging.basicConfig(
     format="%(asctime)s [AddGesture] [%(levelname)s] %(message)s",
-    level=logging.DEBUG
+    level=logging.INFO
 )
-
-
 
 class AddGesture:
 
@@ -59,8 +57,7 @@ class AddGesture:
         tk_image = ImageTk.PhotoImage(image = tk_image)
         self.label.imgtk = tk_image
         self.label.configure(image=tk_image)
-
-        
+    #end __init__()
 
     def _submit_(self):
         
@@ -79,3 +76,6 @@ class AddGesture:
         self.window.mainloop()
         logging.debug("Returning gesture")
         return self.gesture
+    #end run()
+
+#end class AddGesture
